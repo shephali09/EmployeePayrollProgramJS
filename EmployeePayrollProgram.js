@@ -9,6 +9,9 @@ const FULL_TIME_HOURS = 8;
 const WAGE_PER_HOUR = 20;
 const NUMBER_OF_WORKING_DAYS = 20;
 const TOTAL_WORKING_HOURS = 160;
+let empWageArray = new Array();
+let empDailyMap = new Array();
+let empDailyWageMap = new Map();
 
 function calculateDailyWage(empHrs) {
     return empHrs * WAGE_PER_HOUR;
@@ -35,6 +38,7 @@ while (totalEmpHrs <= TOTAL_WORKING_HOURS && totalWorkingDays < NUMBER_OF_WORKIN
     let empHrs = getWorkingHours(empCheck);
     totalEmpHrs += empHrs;
     empDailyWageArray.push(calculateDailyWage(empHrs));
+    empDailyWageMap.set(totalWorkingDays, calculateDailyWage(empHrs));
 }
 
 let employeeWage = calculateDailyWage(totalEmpHrs);
@@ -49,14 +53,14 @@ function sum(dailyWage) {
 empDailyWageArray.forEach(sum);
 console.log("UC-7A - Total Days: " + totalWorkingDays + " Total Hours: " + totalEmpHrs + " Employee Daily Wage: " + employeeWage);
 
-function totalWages(totalWage,dailyWage){
+function totalWages(totalWage, dailyWage) {
     return totalWage + dailyWage;
 }
 console.log("UC-7A - Employee Wage with Reduce method: " + empDailyWageArray.reduce(totalWages, 0));
 
 //UC-7B
 let dayAlong = 0;
-function mapDayAlongWithDailyWage(dailyWage){
+function mapDayAlongWithDailyWage(dailyWage) {
     dayAlong++;
     return dayAlong + " = " + dailyWage;
 
@@ -67,7 +71,7 @@ console.log(mapDayWithWageArray);
 
 //UC-7C
 
-function fullTimeWage(dailyWage){
+function fullTimeWage(dailyWage) {
     return dailyWage.includes("160");
 
 }
@@ -77,7 +81,7 @@ console.log(fullDayWageArray);
 
 //UC-7D
 
-function findFullTimeWage(dailyWage){
+function findFullTimeWage(dailyWage) {
     return dailyWage.includes("160");
 }
 let findDayWageArray = mapDayWithWageArray.find(findFullTimeWage);
@@ -85,7 +89,7 @@ console.log("UC-7D - Daily Wage Find when Fulltime hour is 160: ");
 console.log(findDayWageArray);
 
 //UC-7E
-function isAllFullTimeWage(dailyWage){
+function isAllFullTimeWage(dailyWage) {
     return dailyWage.includes("160");
 }
 let allFullTimeWageArray = mapDayWithWageArray.every(isAllFullTimeWage);
@@ -93,7 +97,7 @@ console.log("UC-7E - Check all element have full time wage: ");
 console.log(allFullTimeWageArray);
 
 //UC-7F
-function isAnyPartTimeWage(dailyWage){
+function isAnyPartTimeWage(dailyWage) {
     return dailyWage.includes("80");
 }
 let isAnyPartTimeWageArray = mapDayWithWageArray.some(isAllFullTimeWage);
@@ -101,12 +105,13 @@ console.log("UC-7F - Check if any part time Wage:");
 console.log(isAnyPartTimeWageArray);
 
 //UC-7G
-function totalDaysWorked(numOfDays, dailyWage){
-    if(dailyWage > 0){
-        return numOfDays+1;
+function totalDaysWorked(numOfDays, dailyWage) {
+    if (dailyWage.includes("80") || dailyWage.includes("160")) {
+        return numOfDays + 1;
     }
     return numOfDays;
 }
-let totalDaysWorkedArray = mapDayWithWageArray.reduce(totalDaysWorked);
+let totalDaysWorkedArray = mapDayWithWageArray.reduce(totalDaysWorked, 0);
 console.log("UC-7G - Number of days employee worked: ");
-console.log(totalDaysWorkedArray,0);
+console.log(totalDaysWorkedArray);
+
