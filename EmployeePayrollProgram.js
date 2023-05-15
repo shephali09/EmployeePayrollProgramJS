@@ -39,11 +39,20 @@ while (totalEmpHrs <= TOTAL_WORKING_HOURS && totalWorkingDays < NUMBER_OF_WORKIN
     let empCheck = Math.floor(Math.random() * 10) % 3;
     let empHrs = getWorkingHours(empCheck);
     totalEmpHrs += empHrs;
-    empDailyWageArray.push(calculateDailyWage(empHrs));
-    empDailyWageMap.set(totalWorkingDays, calculateDailyWage(empHrs));
-    empDailyHrMap.set(totalEmpHrs, getWorkingHours(empCheck));
-}
+    empDailyWageArray.push({
+        dayNum:totalWorkingDays, 
+        dailyHrs:empHrs,
+        dailyWage: calculateDailyWage(empHrs),
+        toString(){
+            return '\nDay' + this.dayNum + ' => Working hours is ' + this.dailyHrs + 'And wage earned= ' + this.dailyWage
+            
 
+            },
+        });
+    empDailyWageMap.set(totalWorkingDays, calculateDailyWage(empHrs));
+    empDailyHrMap.set(totalEmpHrs,getWorkingHours(empCheck));
+}
+console.log("UC10- Showing Day Hour work and wage: " + empDailyHrsAndWageArray);
 
 let employeeWage = calculateDailyWage(totalEmpHrs);
 console.log("Total Days: " + totalWorkingDays + " Total Hours: " + totalEmpHrs + " Employee Daily Wage: " + employeeWage);
