@@ -39,18 +39,19 @@ while (totalEmpHrs <= TOTAL_WORKING_HOURS && totalWorkingDays < NUMBER_OF_WORKIN
     let empCheck = Math.floor(Math.random() * 10) % 3;
     let empHrs = getWorkingHours(empCheck);
     totalEmpHrs += empHrs;
-    empDailyWageArray.push({
-        dayNum:totalWorkingDays, 
-        dailyHrs:empHrs,
+    empDailyWageArray.push(calculateDailyWage(empHrs));
+    empDailyHrsAndWageArray.push({
+        dayNum: totalWorkingDays,
+        dailyHrs: empHrs,
         dailyWage: calculateDailyWage(empHrs),
-        toString(){
+        toString() {
             return '\nDay' + this.dayNum + ' => Working hours is ' + this.dailyHrs + 'And wage earned= ' + this.dailyWage
-            
 
-            },
-        });
+
+        },
+    });
     empDailyWageMap.set(totalWorkingDays, calculateDailyWage(empHrs));
-    empDailyHrMap.set(totalEmpHrs,getWorkingHours(empCheck));
+    empDailyHrMap.set(totalEmpHrs, getWorkingHours(empCheck));
 }
 console.log("UC10- Showing Day Hour work and wage: " + empDailyHrsAndWageArray);
 
@@ -159,3 +160,26 @@ console.log("Full Working days: " + fullWorkingDays);
 console.log("Part Working Days: " + partWorkingDays);
 console.log("No Working days: " + noWorkingDays);
 
+//UC11-A
+let totalWageEmp = empDailyHrsAndWageArray.filter(dailyHrsAndWage => dailyHrsAndWage.dailyWage > 0)
+    .reduce((totalWage, dailyHrsAndWage) => totalWage += dailyHrsAndWage.dailyWage, 0);
+
+let totalHours = empDailyHrsAndWageArray.filter(dailyHrsAndWage => dailyHrsAndWage.dailyHrs > 0)
+    .reduce((totalHours, dailyHrsAndWage) => totalHours += dailyHrsAndWage.dailyHrs, 0);
+
+console.log("UC11-A - Total hours: " + totalHours + " Total Wages: " + totalWageEmp);
+
+//UC11B
+console.log("UC11-B - Logging Full work Days:");
+empDailyHrsAndWageArray.filter(dailyHrsAndWage => dailyHrsAndWage.dailyHrs == FULL_TIME_HOURS)
+    .forEach(dailyHrsAndWage => console.log(dailyHrsAndWage.toString()));
+
+//UC11-C
+let partWorkingDaysStringArray = empDailyHrsAndWageArray.filter(empDailyHrsAndWageArray => empDailyHrsAndWageArray.dailyHrs == PART_TIME_HOURS)
+    .map(empDailyHrsAndWageArray => empDailyHrsAndWageArray.dayNum);
+console.log("UC11-C - Part working days: " + partWorkingDaysStringArray);
+
+//UC11-D
+let noWorkingDaysNum = empDailyHrsAndWageArray.filter(empDailyHrsAndWageArray => empDailyHrsAndWageArray.dailyHrs == 0)
+    .map(empDailyHrsAndWageArray => empDailyHrsAndWageArray.dayNum);
+console.log("UC11-D - No Working Days Nums: " + noWorkingDaysNum);
